@@ -8,14 +8,14 @@ path = "/usr/local/lib/R/site-library"
 
 success = failed = NULL
 
-from.cran = function(pkg, lib = path, overwrite = glob.overwrite,...) {
+from.cran = function(pkg, lib = path, overwrite = glob.overwrite,dependencies=NA,...) {
   if (!overwrite) {
     if (require(pkg,character.only = TRUE)) {
       cat("\npackage ",pkg," already exists.")
       return()
     }
   }
-  res = try(install.packages(pkg, lib=lib))
+  res = try(install.packages(pkg, lib=lib, dependencies=dependencies))
   if (require(pkg,character.only = TRUE)) {
     success <<- c(success,pkg)
   } else {
@@ -47,6 +47,11 @@ from.github = function(pkg, lib = path, ref="master", overwrite = glob.overwrite
   }
 
 }
+
+from.cran(lib=path,"highcharter")
+from.cran(lib=path,"hwriter")
+from.cran(lib=path,"R.cache")
+from.cran(lib=path,"shinydashboard")
 
 from.github(lib=path,"skranz/armd",ref = "master")
 from.github(lib=path,"skranz/RTutor3",ref = "master")
